@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 export default function VoirForum() {
   const [forums, setForums] = useState([]);
@@ -25,16 +27,18 @@ export default function VoirForum() {
         <button onClick={() => setThemeFilter('musique')}>Musique</button>
       </div>
 
-      <div >
-        {filteredForums.map(forum => (
-          <div key={forum._id} >
-            <h2 >{forum.name}</h2>
-            <p>{forum.description}</p>
-            <p>Thème : {forum.theme}</p>
-          </div>
+      // ...
+{filteredForums.map(forum => (
+  <div key={forum._id} >
+    <h2 >{forum.name}</h2>
+    <p>{forum.description}</p>
+    <p >Thème : {forum.theme}</p>
+    <Link to={`/forums/${forum._id}`} >
+      Voir les messages →
+    </Link>
+  </div>
         ))}
       </div>
-    </div>
   );
 }
 
