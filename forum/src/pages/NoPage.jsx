@@ -1,5 +1,5 @@
 export default function NoPage() {
   return (
-    <h1>ereur</h1>
+    <h1>erreur</h1>
   );
 }

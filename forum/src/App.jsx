@@ -26,8 +26,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           
             <Route path="/" element={<VoirForum />} />
-      <Route path="/forums" element={<ForumPage />} />
-      <Route path="/messages" element={<MessagePage />} />
+      <Route path="/forums/:id" element={<ForumPage />} />
+      <Route path="/messages/:id" element={<MessagePage />} />
           <Route 
             path="Ajouterunforum" 
             element={
@@ -55,7 +55,7 @@ export default function App() {
             }
           />
 
-        
+         
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
