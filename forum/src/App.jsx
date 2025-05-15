@@ -1,32 +1,66 @@
-
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from "./pages/Layout";
+import NoPage from "./pages/NoPage";
+import Home from "./pages/Home1";
+import AjouterForum from "./ajouter_forum"; 
+import FormulaireAjouterForum from "./pages/ajouter_formulaire";
+import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 import ForumPage from './ForumPage';
 import MessagePage from './MessagePage';
 import VoirForum from './VoirForum';
 
-function AppRoutes() {
-  
+export default function App() {
+  const [inputname, setInputname] = useState('');
+  const [inputdescription, setInputdescription] = useState('');
+  const [inputtheme, setInputtheme] = useState('');
+
+  const [inputuser, setInputuser] = useState('');
+  const [inputpassword, setInputpassword] = useState('');
+  const [inputrole, setInputrole] = useState('');
 
   return (
-    <Routes>
-      <Route path="/" element={<VoirForum />} />
+    <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+            <Route path="/" element={<VoirForum />} />
       <Route path="/forums/:id" element={<ForumPage />} />
       <Route path="/messages/:id" element={<MessagePage />} />
-      {/* Route 404 */}
-      <Route path="*" element={<div>Page non trouvée</div>} />
-    </Routes>
-  );
-}
+          <Route 
+            path="Ajouterunforum" 
+            element={
+              <FormulaireAjouterForum
+                inputname={inputname}
+                inputdescription={inputdescription}
+                inputtheme={inputtheme}
+                setInputname={setInputname}
+                setInputdescription={setInputdescription}
+                setInputtheme={setInputtheme}
+              />
+            }
+          />
+          <Route 
+            path="Ajouterutilisateur" 
+            element={
+              <FormulaireAjouterUtilisateur
+                inputuser={inputuser}
+                inputpassword={inputpassword}
+                inputrole={inputrole}
+                setInputuser={setInputuser}
+                setInputpassword={setInputpassword}
+                setInputrole={setInputrole}
+              />
+            }
+          />
 
-export default function App() {
-  return (
-    
-      <Router>
-        
-        <main >
-          <AppRoutes />
-        </main>
-      </Router>
+          <Route path="ajouter" element={<AjouterForum />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+    </>
   );
 }
