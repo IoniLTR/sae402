@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
-import VoirForum from "./pages/Home1";
-import AjouterForum from "./ajouter_forum"; 
+import VoirForum from "./pages/Home1"; 
 import FormulaireAjouterForum from "./pages/ajouter_formulaire";
 import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 import ForumPage from './pages/ForumPage';
@@ -25,7 +24,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          
             <Route path="/" element={<VoirForum />} />
       <Route path="/forums" element={<ForumPage />} />
       <Route path="/messages" element={<MessagePage />} />
@@ -56,7 +55,7 @@ export default function App() {
             }
           />
 
-          <Route path="ajouter" element={<AjouterForum />} />
+        
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
