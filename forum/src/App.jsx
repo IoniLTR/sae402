@@ -4,28 +4,56 @@ import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
 import Home from "./pages/Home1";
 import AjouterForum from "./ajouter_forum"; 
+import FormulaireAjouterForum from "./pages/ajouter_formulaire";
+import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 
 export default function App() {
   const [inputname, setInputname] = useState('');
   const [inputdescription, setInputdescription] = useState('');
   const [inputtheme, setInputtheme] = useState('');
+
+  const [inputuser, setInputuser] = useState('');
+  const [inputpassword, setInputpassword] = useState('');
+  const [inputrole, setInputrole] = useState('');
+
   return (
     <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route 
+            path="Ajouterunforum" 
+            element={
+              <FormulaireAjouterForum
+                inputname={inputname}
+                inputdescription={inputdescription}
+                inputtheme={inputtheme}
+                setInputname={setInputname}
+                setInputdescription={setInputdescription}
+                setInputtheme={setInputtheme}
+              />
+            }
+          />
+          <Route 
+            path="Ajouterutilisateur" 
+            element={
+              <FormulaireAjouterUtilisateur
+                inputuser={inputuser}
+                inputpassword={inputpassword}
+                inputrole={inputrole}
+                setInputuser={setInputuser}
+                setInputpassword={setInputpassword}
+                setInputrole={setInputrole}
+              />
+            }
+          />
+
           <Route path="ajouter" element={<AjouterForum />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
-    <AjouterForum inputname={inputname}
-        inputdescription={inputdescription}
-        inputtheme={inputtheme}
-        setInputname={setInputname}
-        setInputdescription={setInputdescription}
-        setInputtheme={setInputtheme}></AjouterForum>
     </>
   );
 }
