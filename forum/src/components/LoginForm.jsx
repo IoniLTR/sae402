@@ -1,0 +1,57 @@
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+
+const LoginForm = () => {
+  const { login } = useAuth();
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://rsantacruz.fr/backForum/api/users/checkUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: user, password }),
+      });
+
+      const isValidUser = await response.json();
+
+      if (isValidUser) {
+        login({ user });
+        setMessage('Connexion réussie !');
+      } else {
+        setMessage("Nom d'utilisateur ou mot de passe incorrect.");
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      setMessage('Erreur lors de la connexion.');
+    }
+  };
+
+  return (
+    <form onSubmit={handleLogin}>
+      <h2>Connexion</h2>
+      <input
+        type="text"
+        placeholder="Nom d'utilisateur"
+        value={user}
+        onChange={(e) => setUser(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Mot de passe"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <button type="submit">Se connecter</button>
+      {message && <p>{message}</p>}
+    </form>
+  );
+};
+
+export default LoginForm;
