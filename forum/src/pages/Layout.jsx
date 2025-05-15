@@ -10,6 +10,8 @@ const Layout = () => {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
             <li><Link to="/Ajouterutilisateur">Ajouter un utilisateur</Link></li>
+            <li><Link to="/forums">forum</Link></li>
+            <li><Link to="/messages">message</Link></li>
           </ul>
         </nav>
       </header>

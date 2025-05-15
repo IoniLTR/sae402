@@ -3,15 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
-import Home from "./pages/Home1";
+import VoirForum from "./pages/Home1";
 import AjouterForum from "./ajouter_forum"; 
 import FormulaireAjouterForum from "./pages/ajouter_formulaire";
 import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
-import ForumPage from './ForumPage';
-import MessagePage from './MessagePage';
-import VoirForum from './VoirForum';
+import ForumPage from './pages/ForumPage';
+import MessagePage from './pages/MessagePage';
 
 export default function App() {
+
   const [inputname, setInputname] = useState('');
   const [inputdescription, setInputdescription] = useState('');
   const [inputtheme, setInputtheme] = useState('');
@@ -27,8 +27,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
             <Route path="/" element={<VoirForum />} />
-      <Route path="/forums/:id" element={<ForumPage />} />
-      <Route path="/messages/:id" element={<MessagePage />} />
+      <Route path="/forums" element={<ForumPage />} />
+      <Route path="/messages" element={<MessagePage />} />
           <Route 
             path="Ajouterunforum" 
             element={
