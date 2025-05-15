@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const LoginForm = () => {
+export default function LoginForm() {
   const { login } = useAuth();
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
@@ -32,26 +32,25 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Connexion</h2>
-      <input
-        type="text"
-        placeholder="Nom d'utilisateur"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Se connecter</button>
-      {message && <p>{message}</p>}
-    </form>
-  );
-};
+  <form onSubmit={handleLogin}>
+    <h2>Connexion</h2>
+    <input
+      type="text"
+      placeholder="Nom d'utilisateur"
+      value={user}
+      onChange={(e) => setUser(e.target.value)}
+      required
+    />
+    <input
+      type="password"
+      placeholder="Mot de passe"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+    />
+    <button type="submit">Se connecter</button>
+    {message && <p>{message}</p>}
+  </form>
+);
 
-export default LoginForm;
+}
