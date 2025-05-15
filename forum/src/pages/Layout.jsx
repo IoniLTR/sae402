@@ -1,5 +1,6 @@
-// pages/Layout.jsx
+// src/pages/Layout.jsx
 import { Outlet, Link } from "react-router-dom";
+import NavBar from "../components/NavBar"; // Assure-toi que le fichier a bien été renommé
 
 const Layout = () => {
   return (
@@ -12,7 +13,7 @@ const Layout = () => {
             <li><Link to="/Ajouterutilisateur">Ajouter un utilisateur</Link></li>
             <li><Link to="/forums">forum</Link></li>
             <li><Link to="/messages">message</Link></li>
-            <li><Link to="/login">login</Link></li>
+            <li><NavBar /></li> {/* Ici on affiche Login ou Bienvenue/Déconnexion */}
           </ul>
         </nav>
       </header>
