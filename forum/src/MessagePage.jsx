@@ -15,8 +15,8 @@ export default function MessagePage() {
     <div>
       <h1>Réponses au message</h1>
       <div>
-        {answers.map(answer => (
-          <div key={answer._id} >
+        {answers.map((answer, index) => (
+          <div key={index} >
             <p><strong>{answer.author}</strong></p>
             <p>{answer.content}</p>
             <p>{new Date(answer.date).toLocaleString()}</p>
