@@ -8,7 +8,7 @@ import FormulaireAjouterForum from "./pages/ajouter_formulaire";
 import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 import ForumPage from './pages/ForumPage';
 import MessagePage from './pages/MessagePage';
-import LoginPage from './components/LoginPage';
+import LoginForm from './components/LoginForm';
 
 export default function App() {
 
@@ -29,7 +29,7 @@ export default function App() {
             <Route path="/" element={<VoirForum />} />
       <Route path="/forums" element={<ForumPage />} />
       <Route path="/messages" element={<MessagePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginForm />} />
           <Route 
             path="Ajouterunforum" 
             element={
