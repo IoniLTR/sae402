@@ -10,6 +10,8 @@ import ForumPage from './pages/ForumPage';
 import MessagePage from './pages/MessagePage';
 import LoginForm from './pages/LoginForm';
 import { AuthProvider } from "./context/AuthContext"; // 💡 Assure-toi que ce fichier existe
+import PosterMessage from "./pages/PosterMessage";
+
 
 export default function App() {
   const [inputname, setInputname] = useState('');
@@ -27,6 +29,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<VoirForum />} />
             <Route path="/forums/:id" element={<ForumPage />} />
+            <Route path="/forums/:id/poster" element={<PosterMessage />} />
             <Route path="/messages/:id" element={<MessagePage />} />
             <Route path="login" element={<LoginForm />} />
             <Route 

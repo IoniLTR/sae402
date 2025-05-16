@@ -27,7 +27,7 @@ export default function ForumPage() {
   return (
     <div>
       <h1 >Messages du forum</h1>
-
+      <Link to={`/forums/${id}/poster`}>Poster un message</Link>
       {messages.length === 0 ? (
         <p>Aucun message trouvé pour ce forum.</p>
       ) : (
