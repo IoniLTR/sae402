@@ -2,12 +2,30 @@
 import { Outlet, Link } from "react-router-dom";
 import NavBar from "../components/NavBar"; // Assure-toi que le fichier a bien été renommé
 
+
+const headerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "10px",
+  backgroundColor: "#f0f0f0"
+};
+
+const navStyle = {
+  display: "flex",
+  gap: "15px",
+  listStyle: "none",
+  padding: 0,
+  margin: 0
+};
+
+
 const Layout = () => {
   return (
     <>
-      <header>
+      <header style={headerStyle}>
         <nav>
-          <ul>
+          <ul style={navStyle}>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
             <li><Link to="/Ajouterutilisateur">Ajouter un utilisateur</Link></li>
