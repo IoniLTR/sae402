@@ -23,7 +23,6 @@ export default function ForumPage() {
       fetch('http://rsantacruz.fr/backForum/api/forums/getForums')
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         const forum = data.find(f => String(f.id) === id);
         setForumInfo(forum);
       })
