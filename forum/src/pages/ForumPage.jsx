@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 export default function ForumPage() {
   const { id } = useParams(); // ID du forum
   const [messages, setMessages] = useState([]);
+  const [forumInfo, setForumInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,14 +20,24 @@ export default function ForumPage() {
       .catch(err => {
         console.error('Erreur lors de la récupération des messages :', err);
       })
+      fetch('http://rsantacruz.fr/backForum/api/forums/getForums')
+      .then(res => res.json())
+      .then(data => {
+        const forum = data.find(f => String(f.id) === id);
+        setForumInfo(forum);
+      })
+      .catch(err => {
+        console.error('Erreur récupération forum info :', err);
+      })
       .finally(() => setLoading(false));
   }, [id]);
+    
 
   if (loading) return <p>Chargement...</p>;
 
   return (
     <div>
-      <h1 >Messages du forum</h1>
+      <h1 >{forumInfo ? forumInfo.name : "Forum"}</h1>
       <Link to={`/forums/${id}/poster`}>Poster un message</Link>
       {messages.length === 0 ? (
         <p>Aucun message trouvé pour ce forum.</p>
