@@ -92,7 +92,16 @@ body {
 .menu-toggle {
   display: none;
 }
-
+.button{
+  padding: 0.50rem;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links {

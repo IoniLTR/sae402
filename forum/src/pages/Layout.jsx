@@ -20,7 +20,7 @@ const Layout = () => {
 
         <ul className="nav-links">
           <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
-          <li><button><Link to="/Ajouterutilisateur">inscription</Link></button></li>
+          <li><button className="button"><Link to="/Ajouterutilisateur">inscription</Link></button></li>
           {/* <li><Link to="/forums">Forum</Link></li>
           <li><Link to="/messages">Message</Link></li> */}
           <li><NavBar /></li>
