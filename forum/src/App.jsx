@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState } from "react";
-import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
 import VoirForum from "./pages/Home1";
@@ -9,7 +9,7 @@ import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 import ForumPage from './pages/ForumPage';
 import MessagePage from './pages/MessagePage';
 import LoginForm from './pages/LoginForm';
-import { AuthProvider } from "./context/AuthContext"; // 💡 Assure-toi que ce fichier existe
+import { AuthProvider } from "./context/AuthContext";
 import PosterMessage from "./pages/PosterMessage";
 import RepondreMessage from './pages/RepondreMessage';
 import RepondreAReponse from './pages/RepondreAReponse';
@@ -30,14 +30,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<VoirForum />} />
+            <Route path="/forums" element={<ForumPage />} /> {/* ✅ Ajout ici */}
             <Route path="/forums/:id" element={<ForumPage />} />
             <Route path="/forums/:id/poster" element={<PosterMessage />} />
             <Route path="/repondre/:id" element={<RepondreMessage />} />
             <Route path="/repondre-a-reponse/:id" element={<RepondreAReponseWrapper />} />
             <Route path="/messages/:id" element={<MessagePage />} />
-            <Route path="login" element={<LoginForm />} />
+            <Route path="/login" element={<LoginForm />} />
             <Route 
-              path="Ajouterunforum" 
+              path="/Ajouterunforum" 
               element={
                 <FormulaireAjouterForum
                   inputname={inputname}
@@ -50,7 +51,7 @@ export default function App() {
               }
             />
             <Route 
-              path="Ajouterutilisateur" 
+              path="/Ajouterutilisateur" 
               element={
                 <FormulaireAjouterUtilisateur
                   inputuser={inputuser}
