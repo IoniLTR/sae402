@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function ForumPage() {
   const { id } = useParams(); // ID du forum
   const [messages, setMessages] = useState([]);
+  const navigate = useNavigate();
+  const { user } = useAuth(); 
   const [forumInfo, setForumInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,13 +35,20 @@ export default function ForumPage() {
       .finally(() => setLoading(false));
   }, [id]);
     
+  const handlePostClick = () => {
+    if (!user) {
+      navigate("/login"); // redirige vers login
+    } else {
+      navigate(`/forums/${id}/poster`); // redirige vers poster
+    }
+  };
 
   if (loading) return <p>Chargement...</p>;
 
   return (
     <div>
       <h1 >{forumInfo ? forumInfo.name : "Forum"}</h1>
-      <Link to={`/forums/${id}/poster`}>Poster un message</Link>
+       <button onClick={handlePostClick}>Poster un message</button>
       {messages.length === 0 ? (
         <p>Aucun message trouvé pour ce forum.</p>
       ) : (
