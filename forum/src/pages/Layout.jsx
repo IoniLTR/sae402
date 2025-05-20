@@ -1,6 +1,7 @@
 // src/pages/Layout.jsx
 import { Outlet, Link } from "react-router-dom";
 import NavBar from "../components/NavBar"; // Assure-toi que le fichier a bien été renommé
+import './layout.css';
 
 const Layout = () => {
   return (
