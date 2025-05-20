@@ -1,18 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function VoirForum() {
-  const [forums, setForums] = useState([]);
-  const [themeFilter, setThemeFilter] = useState('all');
-  const [expandedIndexes, setExpandedIndexes] = useState([]);
+
+export default function ForumPage() {
+  const { id } = useParams(); // ID du forum
+  const [messages, setMessages] = useState([]);
+  const [forumInfo, setForumInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetch('http://rsantacruz.fr/backForum/api/forums/getForums')
       .then(res => res.json())
       .then(data => {
-        setForums(data);
-      });
-  }, []);
+        setMessages(data);
+      })
+      .catch(err => {
+        console.error('Erreur lors de la récupération des messages :', err);
+      })
+      fetch('http://rsantacruz.fr/backForum/api/forums/getForums')
+      .then(res => res.json())
+      .then(data => {
+        const forum = data.find(f => String(f.id) === id);
+        setForumInfo(forum);
+      })
+      .catch(err => {
+        console.error('Erreur récupération forum info :', err);
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
+    
+
 
   const toggleExpanded = (index) => {
     setExpandedIndexes(prev =>
@@ -28,35 +46,23 @@ export default function VoirForum() {
 
   return (
     <div>
-      <h1>Liste des forums</h1>
 
-      <div>
-        <button onClick={() => setThemeFilter('all')}>Tous</button>
-        <button onClick={() => setThemeFilter('sport')}>Sport</button>
-        <button onClick={() => setThemeFilter('cinema')}>Cinéma</button>
-        <button onClick={() => setThemeFilter('musique')}>Musique</button>
-      </div>
+      <h1 >{forumInfo ? forumInfo.name : "Forum"}</h1>
+      <Link to={`/forums/${id}/poster`}>Poster un message</Link>
+      {messages.length === 0 ? (
+        <p>Aucun message trouvé pour ce forum.</p>
+      ) : (
+        <div >
+          {messages.map((message, index) => (
+            <div key={index} >
+              <h2 >{message.title}</h2>
+              <p >Par {message.author}</p>
+              <p>{message.content}</p>
+              <Link
+                to={`/messages/${message.id}`}
+              >
+                Voir les réponses →
 
-      <div>
-        {filteredForums.map((forum, index) => {
-          const isExpanded = expandedIndexes.includes(index);
-          const isLong = forum.description.length > 500;
-          const displayText = isExpanded || !isLong
-            ? forum.description
-            : `${forum.description.substring(0, 500)}...`;
-
-          return (
-            <div key={index}>
-              <h2>{forum.name}</h2>
-              <p>{displayText}</p>
-              {isLong && (
-                <button onClick={() => toggleExpanded(index)}>
-                  {isExpanded ? 'Voir moins' : 'Voir plus'}
-                </button>
-              )}
-              <p>Thème : {forum.theme}</p>
-              <Link to={`/forums/${forum.id}`}>
-                Voir les messages →
               </Link>
             </div>
           );

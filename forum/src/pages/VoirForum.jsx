@@ -12,7 +12,7 @@ export default function VoirForum() {
         setForums(data);
       });
   }, []);
-
+  
   const filteredForums = themeFilter === 'all'
     ? forums
     : forums.filter(forum => forum.theme === themeFilter);
@@ -34,7 +34,7 @@ export default function VoirForum() {
             <h2>{forum.name}</h2>
             <p>{forum.description}</p>
             <p>Thème : {forum.theme}</p>
-            <Link to={`/forums/${forum.id}`}>
+            <Link to={`./forums/${forum.id}`}>
               Voir les messages →
             </Link>
           </div>

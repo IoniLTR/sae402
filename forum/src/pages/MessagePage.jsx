@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 export default function MessagePage() {
   const { id } = useParams(); // id du message
   const [answers, setAnswers] = useState([]);
-
+  const [message, setMessage] = useState(null);
   useEffect(() => {
     fetch(`http://rsantacruz.fr/backForum/api/answers/getAnswersByMessage?id=${id}`)
       .then(res => res.json())
       .then(data => setAnswers(data));
+      
   }, [id]);
 
   return (
