@@ -1,4 +1,6 @@
 import React from "react";
+import './ajouterutilisateur.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function FormulaireAjouterUtilisateur({
   inputuser,
@@ -8,14 +10,15 @@ export default function FormulaireAjouterUtilisateur({
   inputrole,
   setInputrole
 }) {
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-      if (!inputuser || !inputpassword || !inputrole) {
-    alert("Veuillez remplir tous les champs !");
-    return;
-  }
 
-  console.log("Données envoyées:", { inputuser, inputpassword, inputrole });
+    if (!inputuser || !inputpassword || !inputrole) {
+      alert("Veuillez remplir tous les champs !");
+      return;
+    }
 
     fetch("http://rsantacruz.fr/backForum/api/users/addUser", {
       method: "POST",
@@ -30,59 +33,63 @@ export default function FormulaireAjouterUtilisateur({
       }),
     })
       .then(async (response) => {
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("Erreur réponse serveur :", errorText);
-    throw new Error("Erreur lors de l’ajout de l’utilisateur");
-  }
-  return response.json();
-})
-
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Erreur réponse serveur :", errorText);
+          throw new Error("Erreur lors de l’ajout de l’utilisateur");
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log("Utilisateur ajouté avec succès:", data);
+        // Réinitialise le formulaire
         setInputuser("");
         setInputpassword("");
         setInputrole("user");
+        // Redirige vers la page d'accueil
+        navigate("/");
       })
       .catch((error) => {
         console.error("Erreur:", error);
+        alert("Une erreur est survenue lors de l'ajout.");
       });
   };
 
   return (
-    <div>
-      <h1>Ajouter un utilisateur</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Nom d'utilisateur :
-          <input
-            type="text"
-            value={inputuser}
-            onChange={(e) => setInputuser(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Mot de passe :
-          <input
-            type="password"
-            value={inputpassword}
-            onChange={(e) => setInputpassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <label htmlFor="role">Rôle :</label>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Créer un compte</h2>
+
+        <input
+          type="text"
+          placeholder="Nom d'utilisateur"
+          value={inputuser}
+          onChange={(e) => setInputuser(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          value={inputpassword}
+          onChange={(e) => setInputpassword(e.target.value)}
+        />
+
         <select
           id="role"
           value={inputrole}
           onChange={(e) => setInputrole(e.target.value)}
         >
+          <option value="">Sélectionner un rôle</option>
           <option value="user">Utilisateur</option>
           <option value="admin">Administrateur</option>
-          <option value="user"></option>
         </select>
-        <br />
+
         <button type="submit">Ajouter</button>
+
+        <div className="signup-link">
+          Vous avez déjà un compte ?{" "}
+          <Link to="/login">Connectez-vous</Link>
+        </div>
       </form>
     </div>
   );

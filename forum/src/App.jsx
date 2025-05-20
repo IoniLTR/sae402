@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
 import VoirForum from "./pages/Home1";
@@ -14,9 +14,6 @@ import PosterMessage from "./pages/PosterMessage";
 import RepondreMessage from './pages/RepondreMessage';
 import RepondreAReponse from './pages/RepondreAReponse';
 import RepondreAReponseWrapper from "./pages/RepondreAReponseWrapper";
-
-
-
 
 export default function App() {
   const [inputname, setInputname] = useState('');
