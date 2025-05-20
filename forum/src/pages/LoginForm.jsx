@@ -32,6 +32,7 @@ export default function LoginForm() {
   };
 
   return (
+    <>
   <form onSubmit={handleLogin}>
     <h2>Connexion</h2>
     <input
@@ -51,6 +52,8 @@ export default function LoginForm() {
     <button type="submit">Se connecter</button>
     {message && <p>{message}</p>}
   </form>
+  <h2>Si vous </h2>
+  </>
 );
 
 }
