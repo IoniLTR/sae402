@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import '../components/login.css'
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -32,7 +34,8 @@ export default function LoginForm() {
   };
 
   return (
-  <form onSubmit={handleLogin}>
+  <div className="login-container">
+  <form onSubmit={handleLogin} className="login-form">
     <h2>Connexion</h2>
     <input
       type="text"
@@ -50,7 +53,14 @@ export default function LoginForm() {
     />
     <button type="submit">Se connecter</button>
     {message && <p>{message}</p>}
+
+    <div className="signup-link">
+      Vous n'avez pas de compte ?{" "}
+      <Link to="/Ajouterutilisateur">Créez-en un</Link>
+    </div>
   </form>
+</div>
+
 );
 
 }

@@ -13,7 +13,7 @@ const NavBar = () => {
           <button onClick={logout}>Déconnexion</button>
         </>
       ) : (
-        <Link to="/login">Login</Link>
+        <button><Link to="/login">Login</Link></button>
       )}
     </>
   );
