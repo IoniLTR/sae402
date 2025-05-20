@@ -9,7 +9,6 @@ export default function ForumPage() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Lit le paramètre 'theme' dans l'URL
     const themeFromURL = searchParams.get('theme');
     if (themeFromURL) {
       setThemeFilter(themeFromURL);
@@ -67,7 +66,9 @@ export default function ForumPage() {
                 </button>
               )}
               <p>Thème : {forum.theme}</p>
-              <Link to={`/forums/${forum.id}`}>
+              
+              {/* 🔁 Changement ici : lien vers /messages/:id au lieu de /forums/:id */}
+              <Link to={`/messages/${forum.id}`}>
                 Voir les messages →
               </Link>
             </div>
