@@ -17,7 +17,7 @@ export default function MessagePage() {
   return (
     <div>
       <h1>Réponses au message</h1>
-      <Link to={`/repondre/${id}`}>Répondre au message principal</Link>
+      <Link to={`/repondre/${id}`}>Poster un message</Link>
       <div>
         {answers.map((answer, index) => (
           <div key={index} >
