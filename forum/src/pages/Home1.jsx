@@ -37,13 +37,13 @@ export default function VoirForum() {
           <button className="carousel-btn left" onClick={scrollLeft}>←</button>
           <div className="carousel-scroll" ref={carouselRef}>
             <div className="carousel-slide">
-              <img src="src/images/slide-1.jpg" alt="Sport" />
+              <img src="/images/sport.jpg" alt="Sport" />
             </div>
             <div className="carousel-slide">
-              <img src="src/images/slide-2.jpg" alt="Cinéma" />
+              <img src="/images/cinema.jpg" alt="Cinéma" />
             </div>
             <div className="carousel-slide">
-              <img src="src/images/slide-3.jpg" alt="Musique" />
+              <img src="/images/musique.jpg" alt="Musique" />
             </div>
           </div>
           <button className="carousel-btn right" onClick={scrollRight}>→</button>
@@ -52,7 +52,7 @@ export default function VoirForum() {
 
       {/* Sections thématiques */}
       <div className="content-home wow slideInLeft">
-        <img src="src/images/sport.jpg" alt="sport" onClick={() => handleRedirect('sport')} />
+        <img src="/images/sport.jpg" alt="sport" onClick={() => handleRedirect('sport')} />
         <div className="text-content-home">
           <h1>Sport</h1>
           <p>Bienvenue dans l’arène des passionnés ! Ici, on vibre au rythme des grandes compétitions, des records battus et des exploits sportifs. Que vous soyez un supporter inconditionnel, un pratiquant amateur ou un simple curieux, cette section est ouverte à tous les amateurs d’émotions fortes. Discutez des matchs en direct, partagez vos analyses d’avant ou d’après-match, débattez sur les transferts, les stratégies d’équipes ou les classements. Football, basketball, tennis, Formule 1, cyclisme, arts martiaux, e-sport et bien plus encore : chaque discipline a sa place.</p>
@@ -68,11 +68,11 @@ export default function VoirForum() {
       <p>Parlez des dernières sorties en salle ou sur les plateformes de streaming, donnez votre avis sur les performances d’acteurs, partagez des anecdotes de tournage ou discutez des grandes œuvres du cinéma mondial. Un débat sur Christopher Nolan, un top 5 des films de Tarantino, une discussion sur les Oscars ou un retour sur une série culte comme "Breaking Bad" ou "The Crown" ? Cette section vous tend les bras. Et si vous êtes un créateur en herbe, n’hésitez pas à partager vos projets ou courts-métrages pour recueillir des avis !</p>
           <button onClick={() => handleRedirect('cinema')}>Accéder</button>
         </div>
-        <img src="src/images/cinema.jpg" alt="ciné" />
+        <img src="/images/cinema.jpg" alt="ciné" />
       </div>
 
       <div className="content-home wow slideInLeft">
-        <img src="src/images/musique.jpg" alt="musique" onClick={() => handleRedirect('musique')} />
+        <img src="/images/musique.jpg" alt="musique" onClick={() => handleRedirect('musique')} />
         <div className="text-content-home">
           <h1>Musique</h1>
           <p>Que serait un forum sans une bande-son ? Ici, la musique est à l’honneur sous toutes ses formes. Rock, rap, pop, électro, reggae, métal, jazz, classique ou musiques du monde : tous les genres sont les bienvenus. Que vous soyez mélomane, musicien, chanteur ou simple amateur, vous pouvez partager vos coups de cœur, faire découvrir des artistes, commenter les sorties d’albums, et suivre l’actualité musicale.</p>
