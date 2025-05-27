@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function ForumPage() {
-  const { id } = useParams(); // ID du forum
+  const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [forumInfo, setForumInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,96 +34,257 @@ export default function ForumPage() {
   }, [id]);
 
   const toggleAnswers = async (messageId) => {
-    // Toggle visibility
     setVisibleAnswers(prev => ({
       ...prev,
       [messageId]: !prev[messageId]
     }));
 
-    // Load only if not already loaded
     if (!answersByMessage[messageId]) {
-      try {
-        const res = await fetch(`http://rsantacruz.fr/backForum/api/answers/getAnswersByMessage?id=${messageId}`);
-        const data = await res.json();
-        setAnswersByMessage(prev => ({
-          ...prev,
-          [messageId]: data
-        }));
-      } catch (err) {
-        console.error("Erreur lors de la récupération des réponses :", err);
-      }
+      await reloadAnswers(messageId);
+    }
+  };
+
+  const reloadAnswers = async (messageId) => {
+    try {
+      const res = await fetch(`http://rsantacruz.fr/backForum/api/answers/getAnswersByMessage?id=${messageId}`);
+      const data = await res.json();
+      const tree = buildAnswerTree(data);
+      setAnswersByMessage(prev => ({
+        ...prev,
+        [messageId]: tree
+      }));
+    } catch (err) {
+      console.error("Erreur lors de la récupération des réponses :", err);
     }
   };
 
   const handlePostClick = () => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      navigate(`/forums/${id}/poster`);
-    }
+    if (!user) navigate("/login");
+    else navigate(`/forums/${id}/poster`);
   };
+
+  function buildAnswerTree(answers) {
+    const answerMap = {};
+    const roots = [];
+
+    answers.forEach(ans => {
+      ans.children = [];
+      answerMap[ans.id] = ans;
+    });
+
+    answers.forEach(ans => {
+      if (answerMap[ans.message]) {
+        answerMap[ans.message].children.push(ans);
+      } else {
+        roots.push(ans);
+      }
+    });
+
+    return roots;
+  }
+
+  function InlineReplyForm({ parentAnswer, onReplySent }) {
+    const [content, setContent] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setError(null);
+
+      const payload = {
+        message: parentAnswer.id,
+        author: user?.username || "Anonyme",
+        content,
+      };
+
+      try {
+        const res = await fetch("http://rsantacruz.fr/backForum/api/answers/addAnswer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('Erreur lors de l’envoi');
+        setContent('');
+        onReplySent();
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    return (
+      <form onSubmit={handleSubmit} style={{ marginTop: '0.5rem' }}>
+        <textarea
+          rows={3}
+          value={content}
+          onChange={e => setContent(e.target.value)}
+          style={{
+            width: '100%',
+            borderRadius: '6px',
+            padding: '0.5rem',
+            border: '1px solid #ccc'
+          }}
+          placeholder="Écrire une réponse..."
+          required
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            marginTop: '0.5rem',
+            backgroundColor: '#2d72d9',
+            color: '#fff',
+            border: 'none',
+            padding: '0.4rem 1rem',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          {loading ? "Envoi..." : "Envoyer"}
+        </button>
+      </form>
+    );
+  }
+
+  function AnswerNode({ answer, messageId }) {
+    const [showReplyBox, setShowReplyBox] = useState(false);
+
+    return (
+      <div style={{
+        marginLeft: "1.5rem",
+        borderLeft: "2px solid #ccc",
+        paddingLeft: "1rem",
+        marginTop: "1rem",
+        background: "#f9f9f9",
+        borderRadius: "4px"
+      }}>
+        <p style={{ fontWeight: "bold", marginBottom: 0 }}>{answer.author}</p>
+
+        {answer.content.startsWith('> @') ? (
+          <>
+            <blockquote style={{
+              background: '#f5f5f5',
+              borderLeft: '4px solid #aaa',
+              padding: '0.5rem',
+              margin: '0.5rem 0',
+              fontStyle: 'italic'
+            }}>
+              {answer.content.split('\n')[0]}
+            </blockquote>
+            <p>{answer.content.split('\n').slice(1).join('\n') || <i>(Pas de contenu)</i>}</p>
+          </>
+        ) : (
+          <p>{answer.content}</p>
+        )}
+
+        <button
+          onClick={() => setShowReplyBox(!showReplyBox)}
+          style={{
+            backgroundColor: '#e0e0e0',
+            border: 'none',
+            padding: '0.3rem 0.6rem',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '0.9rem'
+          }}
+        >
+          {showReplyBox ? "Annuler" : "Répondre"}
+        </button>
+
+        {showReplyBox && (
+          <InlineReplyForm
+            parentAnswer={answer}
+            onReplySent={() => {
+              setShowReplyBox(false);
+              reloadAnswers(messageId);
+            }}
+          />
+        )}
+
+        {answer.children.length > 0 && answer.children.map(child => (
+          <AnswerNode key={child.id} answer={child} messageId={messageId} />
+        ))}
+      </div>
+    );
+  }
 
   if (loading) return <p>Chargement...</p>;
 
   return (
-    <div>
-      <h1>{forumInfo ? forumInfo.name : "Forum"}</h1>
-      <button onClick={handlePostClick}>Poster un message</button>
+    <div style={{ padding: '1rem' }}>
+      <h1 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
+        {forumInfo ? forumInfo.name : "Forum"}
+      </h1>
+
+      <button
+        onClick={handlePostClick}
+        style={{
+          backgroundColor: '#2d72d9',
+          color: 'white',
+          padding: '0.5rem 1rem',
+          border: 'none',
+          borderRadius: '5px',
+          marginBottom: '1.5rem',
+          cursor: 'pointer'
+        }}
+      >
+        Poster un message
+      </button>
 
       {messages.length === 0 ? (
         <p>Aucun message trouvé pour ce forum.</p>
       ) : (
         messages.map((message) => (
-          <div key={message.id} style={{ borderBottom: "1px solid #ccc", paddingBottom: "1rem", marginBottom: "1rem" }}>
+          <div key={message.id} style={{
+            borderBottom: "1px solid #ddd",
+            paddingBottom: "1rem",
+            marginBottom: "1.5rem"
+          }}>
             <h2>{message.title}</h2>
-            <p><strong>Par :</strong> {message.author}</p>
+            <p style={{ fontWeight: "bold" }}>Par : {message.author}</p>
             <p>{message.content}</p>
-            
-            <button onClick={() => toggleAnswers(message.id)}>
-              {visibleAnswers[message.id] ? "Masquer les réponses" : "Voir les réponses"}
-            </button>
 
-            <Link to={`/repondre/${message.id}`} style={{ marginLeft: "1rem" }}>
-              Répondre à ce message
-            </Link>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+              <button
+                onClick={() => toggleAnswers(message.id)}
+                style={{
+                  backgroundColor: '#f0f0f0',
+                  border: '1px solid #ccc',
+                  padding: '0.4rem 0.8rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                {visibleAnswers[message.id] ? "Masquer les réponses" : "Voir les réponses"}
+              </button>
+
+              <Link
+                to={`/repondre/${message.id}`}
+                style={{
+                  backgroundColor: '#4caf50',
+                  color: 'white',
+                  padding: '0.4rem 0.8rem',
+                  borderRadius: '4px',
+                  textDecoration: 'none'
+                }}
+              >
+                Répondre au message
+              </Link>
+            </div>
 
             {visibleAnswers[message.id] && (
-              <div style={{ marginTop: "1rem", paddingLeft: "5rem", borderLeft: "2px solid #ddd" }}>
+              <div style={{ marginTop: '1rem' }}>
                 {!answersByMessage[message.id] ? (
                   <p>Chargement des réponses...</p>
                 ) : answersByMessage[message.id].length === 0 ? (
                   <p>Aucune réponse pour ce message.</p>
                 ) : (
-                  answersByMessage[message.id].map((answer) => (
-                    <div key={answer.id} style={{ marginBottom: "1rem" }}>
-                      <p><strong>{answer.author}</strong></p>
-                      
-                      {answer.content.startsWith('> @') ? (
-                        <>
-                          <blockquote style={{
-                            background: '#f5f5f5',
-                            borderLeft: '4px solid #ccc',
-                            padding: '0.5rem',
-                            margin: 0,
-                            fontStyle: 'italic'
-                          }}>
-                            {answer.content.split('\n')[0]}
-                          </blockquote>
-                          <p style={{ marginTop: '0.5rem' }}>
-                            {answer.content.split('\n').slice(1).join('\n') || <i>(Pas de contenu)</i>}
-                          </p>
-                        </>
-                      ) : (
-                        <p>{answer.content}</p>
-                      )}
-
-                      <Link
-                        to={`/repondre-a-reponse/${answer.id}`}
-                        state={{ reponseOriginale: answer }}
-                      >
-                        Répondre à cette réponse
-                      </Link>
-                    </div>
+                  answersByMessage[message.id].map(answer => (
+                    <AnswerNode key={answer.id} answer={answer} messageId={message.id} />
                   ))
                 )}
               </div>
