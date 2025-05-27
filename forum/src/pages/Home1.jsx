@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import './home.css'
 
-export default function VoirForum() {
+export default function Home1() {
   const navigate = useNavigate();
   const carouselRef = useRef(null);
 

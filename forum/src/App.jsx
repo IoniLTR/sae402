@@ -1,18 +1,17 @@
-// src/App.jsx
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
-import VoirForum from "./pages/Home1";
+import Home1 from "./pages/Home1"; // ✅ Page d'accueil
+import VoirForum from "./pages/VoirForum"; // ✅ Affiche la liste des forums filtrés
 import FormulaireAjouterForum from "./pages/ajouter_formulaire";
 import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
-import ForumPage from './pages/ForumPage';
-import MessagePage from './pages/MessagePage';
-import LoginForm from './pages/LoginForm';
+import ForumPage from "./pages/ForumPage";
+import MessagePage from "./pages/MessagePage";
+import LoginForm from "./pages/LoginForm";
 import { AuthProvider } from "./context/AuthContext";
 import PosterMessage from "./pages/PosterMessage";
-import RepondreMessage from './pages/RepondreMessage';
-import RepondreAReponse from './pages/RepondreAReponse';
+import RepondreMessage from "./pages/RepondreMessage";
 import RepondreAReponseWrapper from "./pages/RepondreAReponseWrapper";
 
 export default function App() {
@@ -29,8 +28,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<VoirForum />} />
-            <Route path="/forums" element={<ForumPage />} /> {/* ✅ Ajout ici */}
+            <Route index element={<Home1 />} /> {/* ✅ Page d'accueil */}
+            <Route path="/forums" element={<VoirForum />} /> {/* ✅ Liste forums */}
             <Route path="/forums/:id" element={<ForumPage />} />
             <Route path="/forums/:id/poster" element={<PosterMessage />} />
             <Route path="/repondre/:id" element={<RepondreMessage />} />

@@ -1,56 +1,50 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
-// Fonction pour récupérer l'utilisateur connecté
-function getConnectedUser() {
-  const user = localStorage.getItem("user");
-  return user ? JSON.parse(user) : null;
-}
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function RepondreAReponse({ reponseOriginale }) {
-  const { id } = useParams(); // id du message parent
-  const navigate = useNavigate();
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = getConnectedUser();
-    if (!user) {
-      alert("Vous devez être connecté pour répondre.");
-      return navigate("/login");
+  
+    if (!reponseOriginale || !reponseOriginale.id) {
+      console.error("ID du message manquant dans reponseOriginale :", reponseOriginale);
+      return;
     }
-
-    // Préparer citation (Markdown style)
-    const citation = `> @${reponseOriginale.author} : ${reponseOriginale.content}\n\n`;
-    const fullContent = citation + content;
-
+  
+    const payload = {
+      message: reponseOriginale.id,
+      author: "TonNomOuPseudo", // Remplace par l'utilisateur connecté
+      content: content
+    };
+  
     try {
       const response = await fetch("http://rsantacruz.fr/backForum/api/answers/addAnswer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          message: id, // ID du message initial
-          author: user.user,
-          content: fullContent,
-        }),
+        body: JSON.stringify(payload),
       });
-
-      if (response.ok) {
-        alert("Réponse envoyée avec succès !");
-        navigate(`/messages/${id}`);
-      } else {
-        alert("Erreur lors de l'envoi.");
+  
+      if (!response.ok) {
+        const errMessage = await response.text();
+        throw new Error(errMessage);
       }
+  
+      console.log("Réponse postée avec succès");
+      navigate(-1);
+  
     } catch (error) {
-      console.error("Erreur réseau :", error);
+      console.error("Erreur lors de l'envoi de la réponse :", error);
     }
   };
+  
 
   return (
     <div>
-      <h3>Répondre à la réponse de {reponseOriginale.author}</h3>
+      <h2>Répondre à la réponse de {reponseOriginale.author}</h2>
       <blockquote >
         {reponseOriginale.content}
       </blockquote>
@@ -58,10 +52,9 @@ export default function RepondreAReponse({ reponseOriginale }) {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Votre réponse..."
-          required
+          rows={6}
+          style={{ width: "100%" }}
         />
-        <br />
         <button type="submit">Envoyer</button>
       </form>
     </div>
