@@ -18,9 +18,9 @@ const Layout = () => {
             <label htmlFor="menu-toggle" className="burger">&#9776;</label>
 
             <ul className="nav-links">
-            <li><Link to="/forums">forum</Link></li>
+            <li><Link to="/forums">Forum</Link></li>
               <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
-              <li><button className="button"><Link to="/Ajouterutilisateur">inscription</Link></button></li>
+              <li><button className="button"><Link to="/Ajouterutilisateur">Inscription</Link></button></li>
               {/*<li><Link to="/messages">Message</Link></li> */}
               <li><NavBar /></li>
             </ul>

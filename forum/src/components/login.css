@@ -83,3 +83,9 @@
 .login-form .signup-link a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .login-form{
+    margin-bottom: 300px;
+  }
+}
