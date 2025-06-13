@@ -1,9 +1,11 @@
 // src/pages/Layout.jsx
 import { Outlet, Link } from "react-router-dom";
-import NavBar from "../components/NavBar"; 
+// import NavBar from "../components/NavBar"; 
+import { useAuth } from '../context/AuthContext';
 import './layout.css';
 
 const Layout = () => {
+  const { user, logout } = useAuth();
   return (
     <>
     <header className="main-header">
@@ -18,11 +20,22 @@ const Layout = () => {
             <label htmlFor="menu-toggle" className="burger">&#9776;</label>
 
             <ul className="nav-links">
-            <li><Link to="/forums">forum</Link></li>
-              <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
-              <li><button className="button"><Link to="/Ajouterutilisateur">inscription</Link></button></li>
+            <li><Link to="/forums">Forum</Link></li>
+              {user && (
+                  <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
+                )}
+            
+
+              <li><button className="button"><Link to="/Ajouterutilisateur">Inscription</Link></button></li>
               {/*<li><Link to="/messages">Message</Link></li> */}
-              <li><NavBar /></li>
+              {user ? (
+                      <>
+                        <button className='button' onClick={logout}>Déconnexion</button>
+                      </>
+                    ) : (
+                      <button className='button'><Link to="/login">Login</Link></button>
+                    )}
+              {/* <li><NavBar /></li> */}
             </ul>
           </div>
         </div>

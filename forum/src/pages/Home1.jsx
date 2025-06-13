@@ -70,6 +70,10 @@ export default function Home1() {
       <p className='para'>Parlez des dernières sorties en salle ou sur les plateformes de streaming, donnez votre avis sur les performances d’acteurs, partagez des anecdotes de tournage ou discutez des grandes œuvres du cinéma mondial. Un débat sur Christopher Nolan, un top 5 des films de Tarantino, une discussion sur les Oscars ou un retour sur une série culte comme "Breaking Bad" ou "The Crown" ? Cette section vous tend les bras. Et si vous êtes un créateur en herbe, n’hésitez pas à partager vos projets ou courts-métrages pour recueillir des avis !</p>
           <button onClick={() => handleRedirect('cinema')} className='btn'>Accéder</button>
         </div>
+<<<<<<< RevoirForum
+        <img src="/images/cinema.jpg" alt="ciné" />
+=======
+>>>>>>> main
       </div>
 
       <div className="content-home wow slideInLeft">
