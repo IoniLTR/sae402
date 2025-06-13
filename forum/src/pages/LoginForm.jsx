@@ -25,7 +25,7 @@ export default function LoginForm() {
       if (isValidUser) {
         login({ user }); // met à jour le contexte utilisateur
         setMessage('Connexion réussie !');
-        navigate('/'); // redirige vers l'accueil
+        navigate('-1'); // redirige vers l'accueil
       } else {
         setMessage("Nom d'utilisateur ou mot de passe incorrect.");
       }

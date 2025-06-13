@@ -13,6 +13,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PosterMessage from "./pages/PosterMessage";
 import RepondreMessage from "./pages/RepondreMessage";
 import RepondreAReponseWrapper from "./pages/RepondreAReponseWrapper";
+import RepondreAReponse from "./pages/RepondreAReponse";
 
 export default function App() {
   const [inputname, setInputname] = useState('');
@@ -33,7 +34,7 @@ export default function App() {
             <Route path="/forums/:id" element={<ForumPage />} />
             <Route path="/forums/:id/poster" element={<PosterMessage />} />
             <Route path="/repondre/:id" element={<RepondreMessage />} />
-            <Route path="/repondre-a-reponse/:id" element={<RepondreAReponseWrapper />} />
+            <Route path="/repondre-a-reponse/:messageId/:answerId" element={<RepondreAReponse />} />
             <Route path="/messages/:id" element={<MessagePage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route 

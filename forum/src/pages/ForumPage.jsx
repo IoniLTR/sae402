@@ -88,75 +88,13 @@ export default function ForumPage() {
     return roots;
   }
 
-  function InlineReplyForm({ parentAnswer, onReplySent }) {
-    const [content, setContent] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-      setError(null);
-
-      const payload = {
-        message: parentAnswer.id,
-        author: user?.username || "Anonyme",
-        content,
-      };
-
-      try {
-        const res = await fetch("http://rsantacruz.fr/backForum/api/answers/addAnswer", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error('Erreur lors de l’envoi');
-        setContent('');
-        onReplySent();
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    return (
-      <form onSubmit={handleSubmit} style={{ marginTop: '0.5rem' }}>
-        <textarea
-          rows={3}
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          style={{
-            width: '100%',
-            borderRadius: '6px',
-            padding: '0.5rem',
-            border: '1px solid #ccc'
-          }}
-          placeholder="Écrire une réponse..."
-          required
-        />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            marginTop: '0.5rem',
-            backgroundColor: '#2d72d9',
-            color: '#fff',
-            border: 'none',
-            padding: '0.4rem 1rem',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          {loading ? "Envoi..." : "Envoyer"}
-        </button>
-      </form>
-    );
-  }
-
   function AnswerNode({ answer, messageId }) {
-    const [showReplyBox, setShowReplyBox] = useState(false);
+    const handleReplyToAnswer = () => {
+      if (!user) navigate("/login");
+      else navigate(`/repondre-a-reponse/${messageId}/${answer.id}`, {
+        state: { forumId: id, messageId }
+      });
+    };
 
     return (
       <div style={{
@@ -185,7 +123,7 @@ export default function ForumPage() {
           <p>{answer.content}</p>
         )}
         <button
-          onClick={() => setShowReplyBox(!showReplyBox)}
+          onClick={handleReplyToAnswer}
           style={{
             backgroundColor: '#e0e0e0',
             border: 'none',
@@ -195,18 +133,8 @@ export default function ForumPage() {
             fontSize: '0.9rem'
           }}
         >
-          {showReplyBox ? "Annuler" : "Répondre"}
+          Répondre
         </button>
-
-        {showReplyBox && (
-          <InlineReplyForm
-            parentAnswer={answer}
-            onReplySent={() => {
-              setShowReplyBox(false);
-              reloadAnswers(messageId);
-            }}
-          />
-        )}
 
         {answer.children.length > 0 && answer.children.map(child => (
           <AnswerNode key={child.id} answer={child} messageId={messageId} />
