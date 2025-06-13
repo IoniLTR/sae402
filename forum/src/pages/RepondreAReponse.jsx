@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+// Fonction utilitaire pour vérifier l'utilisateur connecté
+function getConnectedUser() {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+}
 
 export default function RepondreAReponse() {
   const [originalReply, setOriginalReply] = useState(null);
@@ -27,6 +32,13 @@ export default function RepondreAReponse() {
   }, [messageId, answerId]);
 
   const handleSubmit = async (e) => {
+    const connectedUser = getConnectedUser();
+    console.log(connectedUser);
+    if (!connectedUser) {
+      // Rediriger vers login ou afficher un message
+      console.error("Utilisateur non connecté");
+      return null;
+    }
     e.preventDefault();
 
     if (!originalReply?.id) {
@@ -36,7 +48,7 @@ export default function RepondreAReponse() {
 
     const payload = {
       message: messageId,
-      author: "TonNomOuPseudo", // À remplacer dynamiquement
+      author: connectedUser.user, // À remplacer dynamiquement
       content: `@${originalReply.author}: ${content}`,
     };
 
@@ -67,6 +79,7 @@ export default function RepondreAReponse() {
           onChange={(e) => setContent(e.target.value)}
           rows={6}
           style={{ width: "100%" }}
+          required
         />
         <button type="submit">Envoyer</button>
       </form>
