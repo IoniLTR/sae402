@@ -1,4 +1,5 @@
 import React from "react";
+import './ajouterutilisateur.css'
 
 export default function formulaireajouterfurom({
   inputname,
@@ -41,9 +42,9 @@ export default function formulaireajouterfurom({
   };
 
   return (
-    <div>
-      <h1>Ajouter un forum</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="login-container">     
+      <form className="login-form" onSubmit={handleSubmit}>
+      <h2>Ajouter un forum</h2>
         <label>
           Nom :
           <input
@@ -55,11 +56,11 @@ export default function formulaireajouterfurom({
         <br />
         <label>
           Description :
-          <input
-            type="text"
-            value={inputdescription}
-            onChange={(e) => setInputdescription(e.target.value)} // Utilisation de setInputdescription
-          />
+      <textarea
+  value={inputdescription}
+  onChange={(e) => setInputdescription(e.target.value)}
+/>
+
         </label>
         <br />
         <label htmlFor="theme">Thème :</label>
