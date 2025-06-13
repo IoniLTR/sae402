@@ -48,7 +48,7 @@ export default function RepondreAReponse() {
 
     const payload = {
       message: messageId,
-      author: connectedUser.user, // À remplacer dynamiquement
+      author: connectedUser.user, 
       content: `@${originalReply.author}: ${content}`,
     };
 
