@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function ForumPage() {
@@ -61,6 +61,11 @@ export default function ForumPage() {
   const handlePostClick = () => {
     if (!user) navigate("/login");
     else navigate(`/forums/${id}/poster`);
+  };
+
+  const handleReplyClick = (messageId) => {
+    if (!user) navigate("/login");
+    else navigate(`/repondre/${messageId}`, { state: { forumId: id } });
   };
 
   function buildAnswerTree(answers) {
@@ -163,7 +168,6 @@ export default function ForumPage() {
         borderRadius: "4px"
       }}>
         <p style={{ fontWeight: "bold", marginBottom: 0 }}>{answer.author}</p>
-
         {answer.content.startsWith('> @') ? (
           <>
             <blockquote style={{
@@ -180,7 +184,6 @@ export default function ForumPage() {
         ) : (
           <p>{answer.content}</p>
         )}
-
         <button
           onClick={() => setShowReplyBox(!showReplyBox)}
           style={{
@@ -262,18 +265,20 @@ export default function ForumPage() {
                 {visibleAnswers[message.id] ? "Masquer les réponses" : "Voir les réponses"}
               </button>
 
-              <Link
-                to={`/repondre/${message.id}`}
+              <button
+                onClick={() => handleReplyClick(message.id)}
+                state={{ forumId: id }}
                 style={{
                   backgroundColor: '#4caf50',
                   color: 'white',
                   padding: '0.4rem 0.8rem',
                   borderRadius: '4px',
-                  textDecoration: 'none'
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
               >
                 Répondre au message
-              </Link>
+              </button>
             </div>
 
             {visibleAnswers[message.id] && (
