@@ -1,3 +1,6 @@
+*{
+  list-style: none;
+}
 .main-home{
     display: block;
 }
@@ -8,6 +11,11 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 200px;
+    padding-top: 100px;
+}
+
+.title-home h2, .title-home h1{
+  text-align: center;
 }
 
 .content-home{
@@ -62,7 +70,8 @@
   
   .carousel-slide img {
     width: 90vw;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     background-position: top;
   }
@@ -85,4 +94,58 @@
   .carousel-btn.right {
     margin-left: 10px;
   }
+
+  @media (max-width: 1024px){
+.content-home {
+    padding: 0px 100px 100px 100px;
+}
+.title-home {
+    padding: 100px;
+}
+
+}
+
+  @media (max-width: 768px){
+.content-home {
+    padding: 0px 50px 50px 50px;
+}
+
+.content-home{
+  flex-direction: column;
+}
+
+.text-content-home{
+  padding: 0;
+}
+
+.content-home img {
+    max-width: 100vw;
+    width: 100%;
+    height: 350px;
+    padding-right: 0px;
+    padding: 30px 0px 30px 0px;
+}
+
+.carousel-btn{
+  display: none;
+}
+
+.title-home {
+    padding: 50px;
+}
+
+.title-home h1{
+      padding-bottom: 20px;
+}
+}
   
+
+  @media (max-width: 425px){
+.content-home {
+    padding: 0px 30px 30px 30px;
+}
+
+.title-home {
+    padding: 30px;
+}
+}

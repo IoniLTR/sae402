@@ -63,13 +63,17 @@ export default function Home1() {
       </div>
 
       <div className="content-home wow slideInRight">
+        <img src="/images/cinema.jpg" alt="ciné" />
         <div className="text-content-home">
           <h1 className='title'>Cinéma</h1>
           <p className='para'>Installez-vous confortablement, le générique commence ! Cette section est le rendez-vous des cinéphiles, des sériephiles et de tous ceux qui aiment s’évader à travers les écrans. Que vous soyez amateur de blockbusters hollywoodiens, de films d’auteur, de thrillers psychologiques ou de comédies romantiques, vous trouverez ici un espace pour échanger, critiquer, conseiller et découvrir.</p>
       <p className='para'>Parlez des dernières sorties en salle ou sur les plateformes de streaming, donnez votre avis sur les performances d’acteurs, partagez des anecdotes de tournage ou discutez des grandes œuvres du cinéma mondial. Un débat sur Christopher Nolan, un top 5 des films de Tarantino, une discussion sur les Oscars ou un retour sur une série culte comme "Breaking Bad" ou "The Crown" ? Cette section vous tend les bras. Et si vous êtes un créateur en herbe, n’hésitez pas à partager vos projets ou courts-métrages pour recueillir des avis !</p>
           <button onClick={() => handleRedirect('cinema')} className='btn'>Accéder</button>
         </div>
+<<<<<<< RevoirForum
         <img src="/images/cinema.jpg" alt="ciné" />
+=======
+>>>>>>> main
       </div>
 
       <div className="content-home wow slideInLeft">

@@ -56,11 +56,11 @@ export default function formulaireajouterfurom({
         <br />
         <label>
           Description :
-          <input
-            type="text"
-            value={inputdescription}
-            onChange={(e) => setInputdescription(e.target.value)} // Utilisation de setInputdescription
-          />
+      <textarea
+  value={inputdescription}
+  onChange={(e) => setInputdescription(e.target.value)}
+/>
+
         </label>
         <br />
         <label htmlFor="theme">Thème :</label>
