@@ -36,6 +36,37 @@
 .text-content-home{
     padding-right: 50px
 }
+
+.not-found{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.not-found img{
+  max-width: 40vw;
+}
+
+.not-found h2{
+  font-size: 40px;
+}
+
+.not-found button{
+    width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.not-found button:hover{
+  background-color: #0056b3;
+}
 /*-----------Carousel--------------*/
 
 .carousel-wrapper {
