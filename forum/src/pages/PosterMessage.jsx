@@ -48,7 +48,8 @@ export default function PosterMessage() {
   };
 
   return (
-    <div>
+    <section class="login-container">
+    <div class="login-form">
       <h2>Poster un nouveau message</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -72,5 +73,6 @@ export default function PosterMessage() {
         <button type="submit">Envoyer</button>
       </form>
     </div>
+    </section>
   );
 }
