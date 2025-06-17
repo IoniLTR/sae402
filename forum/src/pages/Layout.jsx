@@ -16,33 +16,33 @@ const Layout = () => {
           </div>
 
           <div className="nav-right">
-            <input type="checkbox" id="menu-toggle" className="menu-toggle" />
-            <label htmlFor="menu-toggle" className="burger">&#9776;</label>
+            <input type="checkbox" id="menu-toggle" className="menu-toggle" />{/*interupteur*/}
+            <label htmlFor="menu-toggle" className="burger">&#9776;</label>{/*visuelle bouton*/}
 
             <ul className="nav-links">
             <li><Link to="/forums">Forum</Link></li>
-              {user && (
+            {/* affiche ajoutforum si user connecter*/}
+              {user && {/*user && <A />*/}(
                   <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
                 )}
-            
 
               <li><button className="button"><Link to="/Ajouterutilisateur">Inscription</Link></button></li>
-              {/*<li><Link to="/messages">Message</Link></li> */}
-              {user ? (
+
+              {/*si utilisateur connecter bouton login ou deconnecter visible*/}
+              {user ? {/*user ? <A /> : <B />*/}(
                       <>
                         <button className='button' onClick={logout}>Déconnexion</button>
                       </>
                     ) : (
                       <button className='button'><Link to="/login">Login</Link></button>
                     )}
-              {/* <li><NavBar /></li> */}
             </ul>
           </div>
         </div>
       </nav>
     </header>
     <main>
-      <Outlet />
+      <Outlet /> {/*affiche dans toute les pages*/}
     </main>
     </>
   );
