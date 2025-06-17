@@ -88,6 +88,7 @@ const handleSubmit = (e) => {
           value={inputtheme}
           onChange={(e) => setInputtheme(e.target.value)} // implement la de l'imput 
         >
+          <option value="cinema">Sélectionner un rôle</option>
           <option value="cinema">cinema</option>
           <option value="sport">sport</option>
           <option value="quatre">musique</option>

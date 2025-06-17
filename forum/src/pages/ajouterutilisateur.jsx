@@ -91,7 +91,7 @@ export default function FormulaireAjouterUtilisateur({
           value={inputrole}
           onChange={(e) => setInputrole(e.target.value)}
         >
-          <option value="">Sélectionner un rôle</option>
+          <option value="user">Sélectionner un rôle</option>
           <option value="user">Utilisateur</option>
           <option value="admin">Administrateur</option>
         </select>
