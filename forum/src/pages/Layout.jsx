@@ -26,8 +26,9 @@ const Layout = () => {
               {user && ( 
                   <li><Link to="/Ajouterunforum">Ajouter un forum</Link></li>
                 )}
-
-              <li><button className="button"><Link to="/Ajouterutilisateur">Inscription</Link></button></li>
+              {!user && ( 
+              <li><button className='button'><Link to="/Ajouterutilisateur">Inscription</Link></button></li>
+              )}
 
               {/*si utilisateur connecter bouton login ou deconnecter visible*/}
               {/*user ? <A /> : <B />*/}
