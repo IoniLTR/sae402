@@ -54,9 +54,9 @@ export default function RepondreMessage() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <h2 className="login-form">Répondre au message</h2>
+    <div class="login-container">
+      <form onSubmit={handleSubmit} class="login-form">
+        <h2>Répondre au message</h2>
         <label>Votre réponse :</label>
         <textarea
           value={content}

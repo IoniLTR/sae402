@@ -70,7 +70,8 @@ export default function RepondreAReponse() {
   if (!originalReply) return <p>Chargement...</p>;
 
   return (
-    <div>
+    <section class="login-container">
+    <div class="login-form">
       <h2>Répondre à la réponse de {originalReply.author}</h2>
       <blockquote>{originalReply.content}</blockquote>
       <form onSubmit={handleSubmit}>
@@ -84,5 +85,6 @@ export default function RepondreAReponse() {
         <button type="submit">Envoyer</button>
       </form>
     </div>
+    </section>
   );
 }
