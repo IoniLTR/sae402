@@ -2,8 +2,8 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
-import Home1 from "./pages/Home1"; // ✅ Page d'accueil
-import VoirForum from "./pages/VoirForum"; // ✅ Affiche la liste des forums filtrés
+import Home1 from "./pages/Home1";
+import VoirForum from "./pages/VoirForum";
 import FormulaireAjouterForum from "./pages/ajouter_formulaire";
 import FormulaireAjouterUtilisateur from "./pages/ajouterutilisateur";
 import ForumPage from "./pages/ForumPage";
@@ -24,12 +24,15 @@ export default function App() {
   const [inputrole, setInputrole] = useState('');
 
   return (
-    <AuthProvider>
+    <AuthProvider>{/*composant qui gere la connection*/}
       <BrowserRouter>
-        <Routes>
+        <Routes> {/*affiche le composant Layout */}
+          {/*Layout, il y a <Outlet /> qui affiche le composant enfant selon la route.*/}
+          {/*affiche layout*/}
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home1 />} /> {/* ✅ Page d'accueil */}
-            <Route path="/forums" element={<VoirForum />} /> {/* ✅ Liste forums */}
+          {/*path="/monURL1" element={<Composant1 />} */}
+            <Route index element={<Home1 />} /> 
+            <Route path="/forums" element={<VoirForum />} /> *
             <Route path="/forums/:id" element={<ForumPage />} />
             <Route path="/forums/:id/poster" element={<PosterMessage />} />
             <Route path="/repondre/:id" element={<RepondreMessage />} />

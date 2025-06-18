@@ -1,4 +1,3 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -104,6 +103,10 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.button a {
+  color: white !important;
+  text-decoration: none; 
+}
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links {
@@ -113,7 +116,7 @@ body {
     top: 60px;
     right: 0;
     width: 90vw;
-    display: none;
+    display: none; /* met le display non , pour le rendre "invisible"*/
     padding: 1rem;
     border-radius: 0 0 1rem 1rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -129,6 +132,8 @@ body {
   transition: background-color 0.3s ease;
 }
 
+
+
   .nav-links li {
     margin: 0.5rem 0;
   }
@@ -136,8 +141,8 @@ body {
   .burger {
     display: block;
   }
-
-  .menu-toggle:checked + .burger + .nav-links {
+  /* si cheque box true, selectione l'element apres qui a pour id navlink et passe a display flex  */
+  .menu-toggle:checked + .burger + .nav-links { 
     display: flex;
   }
 }

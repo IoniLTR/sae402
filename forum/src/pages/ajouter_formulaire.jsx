@@ -1,7 +1,10 @@
 import React from "react";
-import './ajouterutilisateur.css'
+import './ajouterutilisateur.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function formulaireajouterfurom({
+  //props fournie par le composant parent
   inputname,
   setInputname,
   inputdescription,
@@ -9,37 +12,53 @@ export default function formulaireajouterfurom({
   inputtheme,
   setInputtheme
 }) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const navigate = useNavigate()
+const handleSubmit = (e) => {
+  e.preventDefault(); // Empêche le rechargement de la page
 
-    fetch("http://rsantacruz.fr/backForum/api/forums/addForum", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: inputname,
-        description: inputdescription,
-        theme: inputtheme,
-      }),
+   // Vérifie que tous les champs sont remplis  
+  if (!inputname || !inputdescription || !inputtheme) {
+    alert("Tous les champs sont obligatoires !");
+    return;
+  }
+  
+  // Fonction exécutée quand le formulaire est soumis
+  fetch("http://rsantacruz.fr/backForum/api/forums/addForum", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",          // On accepte du JSON
+      "Content-Type": "application/json", // On envoie du JSON
+    },
+    body: JSON.stringify({ //convertie les object javacript en json
+      name: inputname,
+      description: inputdescription,
+      theme: inputtheme,
+    }),
+  })
+  // Vérifie si la réponse du serveur est correcte
+    .then(async (response) => {
+      console.log("Status:", response.status);
+      if (!response.ok) {
+        const errorText = await response.text(); // Récupère le message d'erreur
+        throw new Error(`Erreur API: ${response.status} - ${errorText}`);
+      }
+      return response.json(); //retourne promesse
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erreur lors de l’ajout du forum");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Forum ajouté avec succès:", data);
-        setInputname("");
-        setInputdescription("");
-        setInputtheme("cinema");
-      })
-      .catch((error) => {
-        console.error("Erreur:", error);
-      });
-  };
+    .then((data) => {
+      console.log("Forum ajouté avec succès:", data);
+      // rafraichie les donnée
+      setInputname("");
+      setInputdescription("");
+      setInputtheme("cinema");
+      //naviguate
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error("Erreur:", error);
+      alert(error.message);
+    });
+};
+
 
   return (
     <div className="login-container">     
@@ -50,7 +69,7 @@ export default function formulaireajouterfurom({
           <input
             type="text"
             value={inputname}
-            onChange={(e) => setInputname(e.target.value)} // Utilisation de setInputname
+            onChange={(e) => setInputname(e.target.value)} // implement la de l'imput 
           />
         </label>
         <br />
@@ -67,8 +86,9 @@ export default function formulaireajouterfurom({
         <select
           id="theme"
           value={inputtheme}
-          onChange={(e) => setInputtheme(e.target.value)} // Utilisation de setInputtheme
+          onChange={(e) => setInputtheme(e.target.value)} // implement la de l'imput 
         >
+          <option value="cinema">Sélectionner un rôle</option>
           <option value="cinema">cinema</option>
           <option value="sport">sport</option>
           <option value="quatre">musique</option>
