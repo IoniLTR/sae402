@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// Fonction utilitaire pour vérifier l'utilisateur connecté
+
+// Fonction pour récupérer l'utilisateur connecté depuis le localStorage
 function getConnectedUser() {
   const user = localStorage.getItem("user");
   return user ? JSON.parse(user) : null;
 }
 
 export default function RepondreAReponse() {
-  const [originalReply, setOriginalReply] = useState(null);
-  const [content, setContent] = useState("");
-  const navigate = useNavigate();
-  const { messageId, answerId } = useParams();
+  const [originalReply, setOriginalReply] = useState(null); // La réponse à laquelle on va répondre
+  const [content, setContent] = useState(""); // Contenu de la réponse
+  const navigate = useNavigate(); // Permet de rediriger
+  const { messageId, answerId } = useParams(); // Récupération des paramètres de l'URL
 
+  // Récupération de la réponse originale à afficher dans le formulaire
   useEffect(() => {
     const fetchReplies = async () => {
       try {
@@ -31,25 +33,28 @@ export default function RepondreAReponse() {
     fetchReplies();
   }, [messageId, answerId]);
 
+  // Soumission du formulaire de réponse
   const handleSubmit = async (e) => {
     const connectedUser = getConnectedUser();
     console.log(connectedUser);
+
     if (!connectedUser) {
-      // Rediriger vers login ou afficher un message
       console.error("Utilisateur non connecté");
-      return null;
+      return null; // Retourne null si l'utilisateur n'est pas connecté
     }
-    e.preventDefault();
+
+    e.preventDefault(); // Empêche le rechargement de la page
 
     if (!originalReply?.id) {
       console.error("ID réponse originale manquant");
       return;
     }
 
+    // Création du contenu avec mention de l'auteur original
     const payload = {
       message: messageId,
-      author: connectedUser.user, // À remplacer dynamiquement
-      content: `@${originalReply.author}: ${content}`,
+      author: connectedUser.user,
+      content: `> @${originalReply.author}\n${content}`, // Format markdown avec citation
     };
 
     try {
@@ -61,30 +66,40 @@ export default function RepondreAReponse() {
 
       if (!response.ok) throw new Error(await response.text());
       console.log("Réponse postée avec succès");
-      navigate(-1);
+      navigate(-1); // Revenir à la page précédente
     } catch (error) {
       console.error("Erreur lors de l'envoi :", error);
     }
   };
 
+  // Pendant le chargement de la réponse originale
   if (!originalReply) return <p>Chargement...</p>;
 
+  // Affichage du formulaire de réponse
   return (
-    <section class="login-container">
-    <div class="login-form">
-      <h2>Répondre à la réponse de {originalReply.author}</h2>
-      <blockquote>{originalReply.content}</blockquote>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={6}
-          style={{ width: "100%" }}
-          required
-        />
-        <button type="submit">Envoyer</button>
-      </form>
-    </div>
+    <section className="login-container">
+      <div className="login-form">
+        <h2>Répondre à la réponse de {originalReply.author}</h2>
+        
+        {/* Affichage de la réponse originale sous forme de citation */}
+        <blockquote>
+          {originalReply.content}
+        </blockquote>
+
+        {/* Formulaire de réponse */}
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={6}
+            style={{ width: "100%" }}
+            required
+          />
+          <button type="submit" style={{ marginTop: "1rem" }}>
+            Envoyer
+          </button>
+        </form>
+      </div>
     </section>
   );
 }
